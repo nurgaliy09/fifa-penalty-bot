@@ -23,3 +23,22 @@ def main():
 
 if __name__ == "__main__":
     main()
+import random
+
+# Misol uchun oddiy prognoz generator
+def generate_coupon():
+    # 4 ta o'yin kombinatsiyasi
+    matches = [
+        "Team A vs Team B",
+        "Team C vs Team D",
+        "Team E vs Team F",
+        "Team G vs Team H"
+    ]
+
+    # Har bir o'yin uchun random natija: goal/miss
+    coupon = []
+    for match in matches:
+        prediction = random.choice(["goal", "miss"])
+        coupon.append({"match": match, "prediction": prediction})
+
+    return coupon
