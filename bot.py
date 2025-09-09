@@ -1,19 +1,25 @@
 import os
-from telegram.ext import Updater, CommandHandler
+from telegram import Update
+from telegram.ext import Application, CommandHandler, ContextTypes
 
+# Tokenni ENV orqali olish
 TOKEN = os.getenv("BOT_TOKEN")
 
-def start(update, context):
-    update.message.reply_text("Salom! Bot muvaffaqiyatli ishlayapti ✅")
+# /start komandasi (async)
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text("Salom! Bot muvaffaqiyatli ishlayapti ✅")
 
 def main():
-    updater = Updater(TOKEN, use_context=True)
-    dp = updater.dispatcher
+    if not TOKEN:
+        print("❌ BOT_TOKEN o‘rnatilmagan!")
+        return
 
-    dp.add_handler(CommandHandler("start", start))
+    app = Application.builder().token(TOKEN).build()
 
-    updater.start_polling()
-    updater.idle()
+    app.add_handler(CommandHandler("start", start))
+
+    print("✅ Bot ishga tushdi...")
+    app.run_polling()
 
 if __name__ == "__main__":
     main()
